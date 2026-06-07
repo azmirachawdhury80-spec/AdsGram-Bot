@@ -35,6 +35,7 @@
         #status {
             margin-top: 20px;
             font-size: 16px;
+            text-align: center;
         }
     </style>
 </head>
@@ -49,7 +50,7 @@
         const tg = window.Telegram.WebApp;
         tg.expand(); // ফুলস্ক্রিন করা
 
-        // আপনার দেওয়া Adsgram API Key দিয়ে Ad Controller সেটআপ
+        // আপনার Adsgram API Key দিয়ে Ad Controller সেটআপ
         const AdController = window.Adsgram.init({ blockId: "145dc59837c249d6acc5598f2c022c05" });
 
         const showAdBtn = document.getElementById('showAdBtn');
@@ -64,8 +65,8 @@
                 statusText.innerText = "Ad watched successfully! Adding balance...";
                 // টেলিগ্রাম বটের কাছে ডাটা পাঠানো
                 tg.sendData("ad_watched_successfully");
-                // Web App টি বন্ধ করে দেওয়া
-                setTimeout(() => tg.close(), 1500);
+                // ২ সেকেন্ড পর Web App টি স্বয়ংক্রিয়ভাবে বন্ধ করে দেওয়া
+                setTimeout(() => tg.close(), 2000);
             }).catch((error) => {
                 statusText.innerText = "Ad skipped or failed to load.";
                 showAdBtn.disabled = false;
@@ -75,4 +76,3 @@
     </script>
 </body>
 </html>
-
