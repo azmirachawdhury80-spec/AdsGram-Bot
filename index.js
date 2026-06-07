@@ -5,8 +5,8 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// আপনার বট টোকেন
-const bot = new Telegraf('8068023821:AAEkhKKmiYcAFtv25WKr7v1hLlzMFYyQcHc');
+// আপনার সঠিক বট টোকেনটি এখানে দেওয়া হলো
+const bot = new Telegraf('8450687153:AAFQUq552vLhEPmDVJbJETJ3SiqdI2bQdj4');
 
 // Render থেকে পাওয়া ওয়েবসাইটের লিঙ্ক
 const webAppUrl = process.env.WEBAPP_URL || 'https://your-app-name.onrender.com';
@@ -32,16 +32,15 @@ bot.on('web_app_data', (ctx) => {
     const data = ctx.message.web_app_data.data;
     
     if (data === 'ad_watched_successfully') {
-        // এখানে আপনি ইউজারের ব্যালেন্স ডাটাবেসে অ্যাড করার কোড লিখতে পারেন
         ctx.reply('🎉 অভিনন্দন! আপনি সফলভাবে Ad দেখেছেন। আপনার একাউন্টে ব্যালেন্স যোগ করা হয়েছে।');
     } else {
         ctx.reply('⚠️ আপনি Ad টি সম্পূর্ণ দেখেননি।');
     }
 });
 
-// বট চালু করা
-bot.launch();
-console.log('Bot is running...');
+// আটকে থাকা মেসেজ ক্লিয়ার করে ফ্রেশভাবে বট চালু করা
+bot.launch({ drop_pending_updates: true });
+console.log('Bot is running with the correct token...');
 
 // Express সার্ভার চালু করা
 app.listen(port, () => {
