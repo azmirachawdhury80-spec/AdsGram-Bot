@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Ad & Earn</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .btn {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Watch Ad to Earn Money</h2>
+    <button id="showAdBtn" class="btn">Show Ad</button>
+    <p id="status"></p>
+
+    <script>
+        // Telegram Web App ইনিশিয়ালাইজ করা
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // ফুলস্ক্রিন করা
+
+        // আপনার দেওয়া Adsgram API Key দিয়ে Ad Controller সেটআপ
+        const AdController = window.Adsgram.init({ blockId: "145dc59837c249d6acc5598f2c022c05" });
+
+        const showAdBtn = document.getElementById('showAdBtn');
+        const statusText = document.getElementById('status');
+
+        showAdBtn.addEventListener('click', () => {
+            showAdBtn.disabled = true;
+            statusText.innerText = "Loading ad... please wait.";
+
+            // Ad শো করানো
+            AdController.show().then((result) => {
+                statusText.innerText = "Ad watched successfully! Adding balance...";
+                // টেলিগ্রাম বটের কাছে ডাটা পাঠানো
+                tg.sendData("ad_watched_successfully");
+                // Web App টি বন্ধ করে দেওয়া
+                setTimeout(() => tg.close(), 1500);
+            }).catch((error) => {
+                statusText.innerText = "Ad skipped or failed to load.";
+                showAdBtn.disabled = false;
+                tg.sendData("ad_failed");
+            });
+        });
+    </script>
+</body>
+</html>
+
