@@ -5,25 +5,24 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// আপডেট করা টেলিগ্রাম বট টোকেন
+// আপনার বট টোকেন
 const bot = new Telegraf('8068023821:AAEkhKKmiYcAFtv25WKr7v1hLlzMFYyQcHc');
 
-// Render থেকে পাওয়া আপনার ওয়েবসাইটের লিঙ্ক (ডিপ্লয় করার পর Render-এর Environment Variable এ সেট করবেন)
+// Render থেকে পাওয়া ওয়েবসাইটের লিঙ্ক
 const webAppUrl = process.env.WEBAPP_URL || 'https://your-app-name.onrender.com';
 
-// সরাসরি index.html ফাইলটি ওয়েব সার্ভারে দেখানোর জন্য (কোনো ফোল্ডার লাগবে না)
+// সরাসরি index.html ফাইলটি ওয়েব সার্ভারে দেখানোর জন্য
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// /start কমান্ড দিলে কী হবে
+// /start কমান্ড দিলে কী হবে (নতুন প্রফেশনাল Inline Keyboard সহ)
 bot.start((ctx) => {
-    ctx.reply('স্বাগতম! 🎁\nইনকাম শুরু করতে নিচের "📺 View Ad" বাটনে ক্লিক করুন।', {
+    ctx.reply('স্বাগতম! 🎁\nইনকাম শুরু করতে নিচের "🎮 Open App" বাটনে ক্লিক করুন।', {
         reply_markup: {
-            keyboard: [
-                [{ text: "📺 View Ad", web_app: { url: webAppUrl } }]
-            ],
-            resize_keyboard: true
+            inline_keyboard: [
+                [{ text: "🎮 Open App", web_app: { url: webAppUrl } }]
+            ]
         }
     });
 });
