@@ -5,14 +5,16 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// আপনার দেওয়া নতুন টেলিগ্রাম বট টোকেন
-const bot = new Telegraf('8450687153:AAFQUq552vLhEPmDVJbJETJ3SiqdI2bQdj4');
+// আপডেট করা টেলিগ্রাম বট টোকেন
+const bot = new Telegraf('8068023821:AAEkhKKmiYcAFtv25WKr7v1hLlzMFYyQcHc');
 
-// Render থেকে পাওয়া আপনার ওয়েবসাইটের লিঙ্ক (ডিপ্লয় করার পর Environment Variable এ সেট করবেন)
+// Render থেকে পাওয়া আপনার ওয়েবসাইটের লিঙ্ক (ডিপ্লয় করার পর Render-এর Environment Variable এ সেট করবেন)
 const webAppUrl = process.env.WEBAPP_URL || 'https://your-app-name.onrender.com';
 
-// পাবলিক ফোল্ডারটি ওয়েব সার্ভারে হোস্ট করার জন্য
-app.use(express.static(path.join(__dirname, 'public')));
+// সরাসরি index.html ফাইলটি ওয়েব সার্ভারে দেখানোর জন্য (কোনো ফোল্ডার লাগবে না)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // /start কমান্ড দিলে কী হবে
 bot.start((ctx) => {
@@ -40,7 +42,7 @@ bot.on('web_app_data', (ctx) => {
 
 // বট চালু করা
 bot.launch();
-console.log('Bot is running with the new token...');
+console.log('Bot is running...');
 
 // Express সার্ভার চালু করা
 app.listen(port, () => {
@@ -50,4 +52,3 @@ app.listen(port, () => {
 // সার্ভার ক্র্যাশ রোধ করার জন্য
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
-
